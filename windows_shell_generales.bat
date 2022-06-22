@@ -23,3 +23,6 @@ $Files = Get-ChildItem $_.FullName -Recurse -File
 $Size = '{0:N2}' -f (( $Files | Measure-Object -Property Length -Sum).Sum /1GB)
 [PSCustomObject]@{Profile = $_.FullName ; TotalObjects = "$($Files.Count)" ; SizeGB = $Size}
 }
+
+::saber modelo de disco duro
+wmic /namespace:\\root\microsoft\windows\storage path msft_disk get Model,BusType
