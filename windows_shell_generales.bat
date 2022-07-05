@@ -26,3 +26,6 @@ $Size = '{0:N2}' -f (( $Files | Measure-Object -Property Length -Sum).Sum /1GB)
 
 ::saber modelo de disco duro
 wmic /namespace:\\root\microsoft\windows\storage path msft_disk get Model,BusType
+
+::olvidar credenciales de red (usar en windows + r)
+net use * /del
