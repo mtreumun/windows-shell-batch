@@ -17,12 +17,25 @@ create partition primary
 format quick fs=ntfs
 assign
 
-::saber childrens de una carpeta
+::saber children de una carpeta
 Get-ChildItem * | Foreach {
 $Files = Get-ChildItem $_.FullName -Recurse -File
 $Size = '{0:N2}' -f (( $Files | Measure-Object -Property Length -Sum).Sum /1GB)
 [PSCustomObject]@{Profile = $_.FullName ; TotalObjects = "$($Files.Count)" ; SizeGB = $Size}
 }
+
+::children sin limite de espacio
+$FormatEnumerationLimit = -1
+
+Get-ChildItem * | Foreach {
+    $Files = Get-ChildItem $_.FullName -Recurse -File
+    $Size = '{0:N2}' -f (($Files | Measure-Object -Property Length -Sum).Sum /1GB)
+    [PSCustomObject]@{
+        Profile = $_.FullName;
+        TotalObjects = "$($Files.Count)";
+        SizeGB = $Size
+    }
+} | Format-Table -AutoSize
 
 ::saber modelo de disco duro
 wmic /namespace:\\root\microsoft\windows\storage path msft_disk get Model,BusType
